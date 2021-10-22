@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class MainGame {
     public static void main(String[] args) {
-        Knight dragonKnight = new Knight(80, 12, "Abraham");
+        Mage dragonKnight = new Mage(80, 12, "Abraham", "Fire");
         Knight robotKnight = new Knight(100, (int)(Math.random()*(40)+1), "Robot");
         Player bambang = new Player(dragonKnight);
         Scanner input = new Scanner(System.in);
@@ -13,9 +13,10 @@ public class MainGame {
         System.out.println("Welcome to Fight game!");
         while(true){
             if(robotKnight.healthHero <= 0){
-                System.out.println("Your Win!");
-                System.out.println("Thank you For playing");
-                System.exit(0);
+                endGame(true);
+            }
+            if(dragonKnight.healthHero <= 0){
+                endGame(false);
             }
             System.out.println("=============================");
             System.out.println("==== Your Enemy is Robot ====");
@@ -30,6 +31,9 @@ public class MainGame {
                 case "1":
                     int knightPower = bambang.attackEnemy();
                     robotKnight.attacked(knightPower);
+                    if(robotKnight.healthHero <= 0){
+                        endGame(true);
+                    }
                     break;
                 case "2":
                     bambang.usePotion();
@@ -40,6 +44,9 @@ public class MainGame {
             }
             int enemyPower = robotKnight.attack();
             dragonKnight.attacked(enemyPower);
+            if((int)(Math.random()*(5)+0) >= 4){
+                robotKnight.heal();
+            }
         }
 
     }
@@ -49,5 +56,16 @@ public class MainGame {
         System.out.println("2. Heal");
         System.out.println("3. Flee");
         System.out.println("Select :");
+    }
+    public static void endGame(boolean isWin){
+        if(isWin){
+            System.out.println("Your Win!");
+            System.out.println("Thank you For playing");
+            System.exit(0);
+        }else{
+            System.out.println("You Lose!");
+            System.out.println("See you next time!");
+            System.exit(0);
+        }
     }
 }
